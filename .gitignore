@@ -1,0 +1,15 @@
+# 编译产物
+*.exe
+*.out
+*.o
+*.obj
+
+# 临时文件
+*.log
+
+# 编辑器
+.vscode/
+.idea/
+
+# Windows
+Thumbs.db
