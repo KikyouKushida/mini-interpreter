@@ -9,3 +9,10 @@ void execute(const Stmt& stmt, std::map<std::string, int>& env) {
     throw std::runtime_error("Unknown statement type");
   }
 }
+
+void executeProgram(const Program& program, std::map<std::string, int>& env) {
+  for (const auto& stmt : program) {
+    execute(*stmt, env);
+  }
+  return ;
+}

@@ -7,8 +7,11 @@
 #include "ast.h"
 #include "stmt.h"
 #include "eval.h"
+#include "program.h"
 #include <stdexcept>
 #include <map>
 #include <iostream>
 
 void execute(const Stmt& stmt, std::map<std::string, int>& env);
+
+void executeProgram(const Program&, std::map<std::string, int>& env);

@@ -9,6 +9,7 @@
 #include "parser.h"
 #include "eval.h"
 #include "execute.h"
+#include "program.h"
 
 void testTokenizer(std::string input) {
   std::vector<Token> tokens1 = tokenize(input);
@@ -127,6 +128,19 @@ void testExecute3() {
   execute(*ast, env);
   return ;
 }
+
+void testProgram() {
+  std::string code =
+    std::string("a = 2\n") 
+    + std::string("b = a * 2 + 1\n")
+    + std::string("print(b)");
+  auto tokens = tokenize(code);
+  TokenStream tokenStream(tokens);
+  auto program = parseProgram(tokenStream);
+  std::map<std::string,int> env;
+  executeProgram(program, env);
+  return ;
+}
  
 int main() {
   // testTokenizer("a = 3");
@@ -138,8 +152,9 @@ int main() {
   // testEval1();
   // testEval2();
   // testEval3();
-  testExecute1();
-  testExecute2();
-  testExecute3();
+  // testExecute1();
+  // testExecute2();
+  // testExecute3();
+  testProgram();
   return 0;
 }

@@ -6,6 +6,7 @@
 #include "token.h"
 #include "ast.h"
 #include "stmt.h"
+#include "program.h"
 #include <stdexcept>
 
 struct TokenStream {
@@ -48,3 +49,4 @@ std::unique_ptr<Expr> parseTerm(TokenStream& ts);
 std::unique_ptr<Expr> parseFactor(TokenStream& ts);
 std::unique_ptr<Expr> parseAllExpression(TokenStream& ts);
 std::unique_ptr<Stmt> parseStatement(TokenStream& ts);
+Program parseProgram(TokenStream& ts);

@@ -74,3 +74,11 @@ std::unique_ptr<Stmt> parseStatement(TokenStream& ts) {
     );
   }
 }
+
+Program parseProgram(TokenStream& ts) {
+  Program program;
+  while (ts.peek().type != TokenType::END) {
+    program.push_back(parseStatement(ts));
+  }
+  return program;
+}
