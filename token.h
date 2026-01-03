@@ -12,6 +12,7 @@ enum class TokenType {
   LPAREN,
   RPAREN,
   END,
+  PRINT,
   INVALID
 };
 
@@ -49,6 +50,8 @@ struct Token {
       return std::string("PLUS(" + lexeme + ")");
     } else if (type == TokenType::RPAREN) {
       return std::string("RPAREN(" + lexeme + ")");
+    } else if (type == TokenType::PRINT) {
+      return std::string("PRINT(" + lexeme + ")");
     } else {
       return std::string("---");
     }

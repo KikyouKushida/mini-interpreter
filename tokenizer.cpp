@@ -70,7 +70,12 @@ std::vector<Token> tokenize(const std::string& input) {
       while (pos < input.size() && isIdentChar(input[pos])) {
         pos = pos + 1;
       }
-      tokens.push_back(Token(TokenType::IDENT, input.substr(startPos, pos - startPos), 0, startPos));
+      if (input.substr(startPos, pos - startPos) == "print") {
+        tokens.push_back(Token(TokenType::PRINT, input.substr(startPos, pos - startPos), 0, startPos));
+      }
+      else {
+        tokens.push_back(Token(TokenType::IDENT, input.substr(startPos, pos - startPos), 0, startPos));
+      }
     } else if (c == '+') {
       tokens.push_back(Token(TokenType::PLUS, input.substr(pos, 1), 0, pos));
       pos = pos + 1;

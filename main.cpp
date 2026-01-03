@@ -7,6 +7,8 @@
 #include "tokenizer.h"
 #include "ast.h"
 #include "parser.h"
+#include "eval.h"
+#include "execute.h"
 
 void testTokenizer(std::string input) {
   std::vector<Token> tokens1 = tokenize(input);
@@ -67,13 +69,77 @@ void testParser3() {
   std::cout << toString(*parseAllExpression(tokenStream)) << "\n";
   return ;
 }
+
+void testEval1() {
+  std::vector<Token> tokens = tokenize("1 + 2 * 3");
+  TokenStream tokenStream(tokens);
+  auto ast = parseAllExpression(tokenStream);
+  std::map<std::string, int> env;
+  env["a"] = 3;
+  std::cout << eval(*ast, env) << "\n";
+  return ;
+}
+
+void testEval2() {
+  std::vector<Token> tokens = tokenize("a * 2 + 1");
+  TokenStream tokenStream(tokens);
+  auto ast = parseAllExpression(tokenStream);
+  std::map<std::string, int> env;
+  env["a"] = 3;
+  std::cout << eval(*ast, env) << "\n";
+  return ;
+}
+
+void testEval3() {
+  std::vector<Token> tokens = tokenize("a * 2 + b");
+  TokenStream tokenStream(tokens);
+  auto ast = parseAllExpression(tokenStream);
+  std::map<std::string, int> env;
+  env["a"] = 3;
+  std::cout << eval(*ast, env) << "\n";
+  return ;
+}
+
+void testExecute1() {
+  std::vector<Token> tokens = tokenize("a = 3");
+  TokenStream tokenStream(tokens);
+  std::map<std::string, int> env;
+  auto ast = parseStatement(tokenStream);
+  execute(*ast, env);
+  std::cout << "a = " << env["a"] << "\n";
+  return ;
+}
+
+void testExecute2() {
+  std::vector<Token> tokens = tokenize("print(1 + 2 * 3)");
+  TokenStream tokenStream(tokens);
+  std::map<std::string, int> env;
+  auto ast = parseStatement(tokenStream);
+  execute(*ast, env);
+  return ;
+}
+
+void testExecute3() {
+  std::vector<Token> tokens = tokenize("a 3");
+  TokenStream tokenStream(tokens);
+  std::map<std::string, int> env;
+  auto ast = parseStatement(tokenStream);
+  execute(*ast, env);
+  return ;
+}
  
 int main() {
   // testTokenizer("a = 3");
   // testTokenizer("b = a * 2 + 1");
   // testAst();
-  testParser1();
-  testParser2();
-  testParser3();
+  // testParser1();
+  // testParser2();
+  // testParser3();
+  // testEval1();
+  // testEval2();
+  // testEval3();
+  testExecute1();
+  testExecute2();
+  testExecute3();
   return 0;
 }

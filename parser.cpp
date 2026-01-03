@@ -54,3 +54,23 @@ std::unique_ptr<Expr> parseAllExpression(TokenStream& ts) {
   ts.expect(TokenType::END);
   return expr;
 }
+
+std::unique_ptr<Stmt> parseStatement(TokenStream& ts) {
+  if (ts.peek().type == TokenType::IDENT) {
+    std::string name = ts.consume().lexeme;
+    ts.expect(TokenType::ASSIGN);
+    auto expr = parseExpression(ts);
+    return std::make_unique<AssignStmt>(name, std::move(expr));
+  } else if (ts.peek().type == TokenType::PRINT) {
+    ts.consume();
+    ts.expect(TokenType::LPAREN);
+    auto expr = parseExpression(ts);
+    ts.expect(TokenType::RPAREN);
+    return std::make_unique<PrintStmt>(std::move(expr));
+  } else {
+    throw std::runtime_error(
+      "Unexpected token '" + ts.peek().lexeme +
+      "' at position " + std::to_string(ts.peek().position)
+    );
+  }
+}

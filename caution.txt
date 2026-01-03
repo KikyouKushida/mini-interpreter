@@ -1,0 +1,11 @@
+Expression -> Term ( ( + | - ) Term )*
+Term -> Factor ( ( * | / ) Factor )*
+Factor -> INT | IDENT | '(' Expression ')'
+
+git init
+git status
+git add
+git commit -m "Initial commit: expression parser and AST"
+git remote add origin https://github.com/KikyouKushida/mini-interpreter.git
+git remote set-url origin https://github.com/KikyouKushida/mini-interpreter.git
+git push -u origin main

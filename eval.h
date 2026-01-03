@@ -1,10 +1,9 @@
+#pragma once
 #include <string>
 #include <vector>
 #include <cctype>     // isspace, isdigit, isalpha
 #include <stdexcept>  // std::runtime_error
+#include <map>
 #include "ast.h"
 
-bool isEmpty(char c);
-bool isIdentStart(char c);
-bool isIdentChar(char c);
-std::vector<Token> tokenize(const std::string& input);
+int eval(const Expr& e, std::map<std::string, int>& env);
