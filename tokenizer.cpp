@@ -64,6 +64,14 @@ std::vector<Token> tokenize(const std::string& input) {
       tokens.push_back(Token(TokenType::NEWLINE, input.substr(pos, pos), 0, pos));
       pos = pos + 1;
       continue;
+    } else if (c == '{') {
+      tokens.push_back(Token(TokenType::LBRACE, input.substr(pos, pos), 0, pos));
+      pos = pos + 1;
+      continue;
+    } else if (c == '}') {
+      tokens.push_back(Token(TokenType::RBRACE, input.substr(pos, pos), 0, pos));
+      pos = pos + 1;
+      continue;
     } else if (isdigit(c)) {
       int value = 0;
       size_t startPos = pos;

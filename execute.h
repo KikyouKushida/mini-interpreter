@@ -12,6 +12,6 @@
 #include <map>
 #include <iostream>
 
-void execute(const Stmt& stmt, std::map<std::string, int>& env);
+void execute(const Stmt& stmt, std::vector<std::map<std::string, int>>& envStack);
 
-void executeProgram(const Program&, std::map<std::string, int>& env);
+void executeProgram(const Program&, std::vector<std::map<std::string, int>>& envStack);

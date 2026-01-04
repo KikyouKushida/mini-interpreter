@@ -71,74 +71,92 @@ void testParser3() {
   return ;
 }
 
-void testEval1() {
-  std::vector<Token> tokens = tokenize("1 + 2 * 3");
-  TokenStream tokenStream(tokens);
-  auto ast = parseAllExpression(tokenStream);
-  std::map<std::string, int> env;
-  env["a"] = 3;
-  std::cout << eval(*ast, env) << "\n";
-  return ;
-}
+// void testEval1() {
+//   std::vector<Token> tokens = tokenize("1 + 2 * 3");
+//   TokenStream tokenStream(tokens);
+//   auto ast = parseAllExpression(tokenStream);
+//   std::map<std::string, int> env;
+//   env["a"] = 3;
+//   std::cout << eval(*ast, env) << "\n";
+//   return ;
+// }
 
-void testEval2() {
-  std::vector<Token> tokens = tokenize("a * 2 + 1");
-  TokenStream tokenStream(tokens);
-  auto ast = parseAllExpression(tokenStream);
-  std::map<std::string, int> env;
-  env["a"] = 3;
-  std::cout << eval(*ast, env) << "\n";
-  return ;
-}
+// void testEval2() {
+//   std::vector<Token> tokens = tokenize("a * 2 + 1");
+//   TokenStream tokenStream(tokens);
+//   auto ast = parseAllExpression(tokenStream);
+//   std::map<std::string, int> env;
+//   env["a"] = 3;
+//   std::cout << eval(*ast, env) << "\n";
+//   return ;
+// }
 
-void testEval3() {
-  std::vector<Token> tokens = tokenize("a * 2 + b");
-  TokenStream tokenStream(tokens);
-  auto ast = parseAllExpression(tokenStream);
-  std::map<std::string, int> env;
-  env["a"] = 3;
-  std::cout << eval(*ast, env) << "\n";
-  return ;
-}
+// void testEval3() {
+//   std::vector<Token> tokens = tokenize("a * 2 + b");
+//   TokenStream tokenStream(tokens);
+//   auto ast = parseAllExpression(tokenStream);
+//   std::map<std::string, int> env;
+//   env["a"] = 3;
+//   std::cout << eval(*ast, env) << "\n";
+//   return ;
+// }
 
-void testExecute1() {
-  std::vector<Token> tokens = tokenize("a = 3");
-  TokenStream tokenStream(tokens);
-  std::map<std::string, int> env;
-  auto ast = parseStatement(tokenStream);
-  execute(*ast, env);
-  std::cout << "a = " << env["a"] << "\n";
-  return ;
-}
+// void testExecute1() {
+//   std::vector<Token> tokens = tokenize("a = 3");
+//   TokenStream tokenStream(tokens);
+//   std::map<std::string, int> env;
+//   auto ast = parseStatement(tokenStream);
+//   execute(*ast, env);
+//   std::cout << "a = " << env["a"] << "\n";
+//   return ;
+// }
 
-void testExecute2() {
-  std::vector<Token> tokens = tokenize("print(1 + 2 * 3)");
-  TokenStream tokenStream(tokens);
-  std::map<std::string, int> env;
-  auto ast = parseStatement(tokenStream);
-  execute(*ast, env);
-  return ;
-}
+// void testExecute2() {
+//   std::vector<Token> tokens = tokenize("print(1 + 2 * 3)");
+//   TokenStream tokenStream(tokens);
+//   std::map<std::string, int> env;
+//   auto ast = parseStatement(tokenStream);
+//   execute(*ast, env);
+//   return ;
+// }
 
-void testExecute3() {
-  std::vector<Token> tokens = tokenize("a 3");
-  TokenStream tokenStream(tokens);
-  std::map<std::string, int> env;
-  auto ast = parseStatement(tokenStream);
-  execute(*ast, env);
-  return ;
-}
+// void testExecute3() {
+//   std::vector<Token> tokens = tokenize("a 3");
+//   TokenStream tokenStream(tokens);
+//   std::map<std::string, int> env;
+//   auto ast = parseStatement(tokenStream);
+//   execute(*ast, env);
+//   return ;
+// }
 
-void testProgram() {
+// void testProgram() {
+//   std::string code =
+//     std::string("a = 2\n") 
+//     + std::string("b = a * 2 + 1\n")
+//     + std::string("print(b)");
+//   auto tokens = tokenize(code);
+//   TokenStream tokenStream(tokens);
+//   auto program = parseProgram(tokenStream);
+//   std::map<std::string,int> env;
+//   executeProgram(program, env);
+//   return ;
+// }
+
+void testBlockStmt() {
   std::string code =
-    std::string("a = 2\n") 
-    + std::string("b = a * 2 + 1\n")
-    + std::string("print(b)");
+    std::string("a = 1\n") 
+    + std::string("{\n")
+    + std::string(" a = 2\n")
+    + std::string(" print(a)\n")
+    + std::string("}\n") 
+    + std::string("print(a)\n");
   auto tokens = tokenize(code);
   TokenStream tokenStream(tokens);
   auto program = parseProgram(tokenStream);
-  std::map<std::string,int> env;
-  executeProgram(program, env);
+  std::vector<std::map<std::string, int>> envStack;
+  envStack.push_back({});
+  executeProgram(program, envStack);
+  envStack.pop_back();
   return ;
 }
  
@@ -155,6 +173,7 @@ int main() {
   // testExecute1();
   // testExecute2();
   // testExecute3();
-  testProgram();
+  // testProgram();
+  testBlockStmt();
   return 0;
 }

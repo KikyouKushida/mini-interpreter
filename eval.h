@@ -6,4 +6,4 @@
 #include <map>
 #include "ast.h"
 
-int eval(const Expr& e, std::map<std::string, int>& env);
+int eval(const Expr& e, std::vector<std::map<std::string, int>>& envStack);

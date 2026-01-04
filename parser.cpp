@@ -67,6 +67,11 @@ std::unique_ptr<Stmt> parseStatement(TokenStream& ts) {
     auto expr = parseExpression(ts);
     ts.expect(TokenType::RPAREN);
     return std::make_unique<PrintStmt>(std::move(expr));
+  } else if (ts.peek().type == TokenType::LBRACE) {
+    ts.consume();
+    Program stmts = parseProgram(ts);
+    ts.expect(TokenType::RBRACE);
+    return std::make_unique<BlockStmt>(std::move(stmts));
   } else {
     throw std::runtime_error(
       "Unexpected token '" + ts.peek().lexeme +
@@ -85,12 +90,12 @@ std::unique_ptr<Stmt> parseStatement(TokenStream& ts) {
 
 Program parseProgram(TokenStream& ts) {
   Program program;
-  while (ts.peek().type != TokenType::END) {
+  while (ts.peek().type != TokenType::END && ts.peek().type != TokenType::RBRACE) {
     while (ts.peek().type == TokenType::SEMICOLON ||
            ts.peek().type == TokenType::NEWLINE) {
       ts.consume();
     }
-    if (ts.peek().type == TokenType::END) {
+    if (ts.peek().type == TokenType::END || ts.peek().type == TokenType::RBRACE) {
       break;
     }
     program.push_back(parseStatement(ts));

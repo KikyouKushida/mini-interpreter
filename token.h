@@ -11,6 +11,8 @@ enum class TokenType {
   ASSIGN,
   LPAREN,
   RPAREN,
+  LBRACE,
+  RBRACE,
   END,
   PRINT,
   SEMICOLON,

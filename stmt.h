@@ -24,3 +24,12 @@ struct PrintStmt : Stmt {
     expr = std::move(expr_);
   }
 };
+
+struct BlockStmt : Stmt {
+  std::vector<std::unique_ptr<Stmt>> statements;
+  BlockStmt(std::vector<std::unique_ptr<Stmt>> statements_) {
+    for (auto& stmt: statements_) {
+      statements.push_back(std::move(stmt));
+    }
+  }
+};
