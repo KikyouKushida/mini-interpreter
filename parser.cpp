@@ -75,10 +75,29 @@ std::unique_ptr<Stmt> parseStatement(TokenStream& ts) {
   }
 }
 
+// Program parseProgram(TokenStream& ts) {
+//   Program program;
+//   while (ts.peek().type != TokenType::END) {
+//     program.push_back(parseStatement(ts));
+//   }
+//   return program;
+// }
+
 Program parseProgram(TokenStream& ts) {
   Program program;
   while (ts.peek().type != TokenType::END) {
+    while (ts.peek().type == TokenType::SEMICOLON ||
+           ts.peek().type == TokenType::NEWLINE) {
+      ts.consume();
+    }
+    if (ts.peek().type == TokenType::END) {
+      break;
+    }
     program.push_back(parseStatement(ts));
+    while (ts.peek().type == TokenType::SEMICOLON ||
+           ts.peek().type == TokenType::NEWLINE) {
+      ts.consume();
+    }
   }
   return program;
 }

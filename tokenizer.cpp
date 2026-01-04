@@ -2,7 +2,7 @@
 #include "tokenizer.h"
 
 bool isEmpty(char c) {
-  if (c == ' ' || c == '\n' || c == '\t' || c == '\r') {
+  if (c == ' ' || c == '\t' || c == '\r') {
     return true;
   } else {
     return false;
@@ -54,6 +54,14 @@ std::vector<Token> tokenize(const std::string& input) {
     // TODO: 运算符 / 符号
     // TODO: 错误
     if (isEmpty(c)) {
+      pos = pos + 1;
+      continue;
+    } else if (c == ';') {
+      tokens.push_back(Token(TokenType::SEMICOLON, input.substr(pos, pos), 0, pos));
+      pos = pos + 1;
+      continue;
+    } else if (c == '\n') {
+      tokens.push_back(Token(TokenType::NEWLINE, input.substr(pos, pos), 0, pos));
       pos = pos + 1;
       continue;
     } else if (isdigit(c)) {
