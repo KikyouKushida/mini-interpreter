@@ -33,3 +33,21 @@ struct BlockStmt : Stmt {
     }
   }
 };
+
+struct IfStmt : Stmt {
+  std::unique_ptr<Expr> expr;
+  std::unique_ptr<Stmt> stmt;
+  IfStmt(std::unique_ptr<Expr> expr_, std::unique_ptr<Stmt> stmt_) {
+    expr = std::move(expr_);
+    stmt = std::move(stmt_);
+  }
+};
+
+struct WhileStmt : Stmt {
+  std::unique_ptr<Expr> expr;
+  std::unique_ptr<Stmt> stmt;
+  WhileStmt(std::unique_ptr<Expr> expr_, std::unique_ptr<Stmt> stmt_) {
+    expr = std::move(expr_);
+    stmt = std::move(stmt_);
+  }
+};

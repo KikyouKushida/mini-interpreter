@@ -67,6 +67,20 @@ std::unique_ptr<Stmt> parseStatement(TokenStream& ts) {
     auto expr = parseExpression(ts);
     ts.expect(TokenType::RPAREN);
     return std::make_unique<PrintStmt>(std::move(expr));
+  } else if (ts.peek().type == TokenType::IF) {
+    ts.consume();
+    ts.expect(TokenType::LPAREN);
+    auto expr = parseExpression(ts);
+    ts.expect(TokenType::RPAREN);
+    auto stmt = parseStatement(ts);
+    return std::make_unique<IfStmt>(std::move(expr), std::move(stmt));
+  } else if (ts.peek().type == TokenType::WHILE) {
+    ts.consume();
+    ts.expect(TokenType::LPAREN);
+    auto expr = parseExpression(ts);
+    ts.expect(TokenType::RPAREN);
+    auto stmt = parseStatement(ts);
+    return std::make_unique<WhileStmt>(std::move(expr), std::move(stmt));
   } else if (ts.peek().type == TokenType::LBRACE) {
     ts.consume();
     Program stmts = parseProgram(ts);

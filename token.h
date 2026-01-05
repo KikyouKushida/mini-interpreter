@@ -16,6 +16,8 @@ enum class TokenType {
   END,
   PRINT,
   SEMICOLON,
+  IF,
+  WHILE,
   NEWLINE,
   INVALID
 };

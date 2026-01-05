@@ -142,7 +142,7 @@ void testParser3() {
 //   return ;
 // }
 
-void testBlockStmt() {
+void testBlockStmt1() {
   std::string code =
     std::string("a = 1\n") 
     + std::string("{\n")
@@ -159,7 +159,229 @@ void testBlockStmt() {
   envStack.pop_back();
   return ;
 }
+
+void testBlockStmt2() {
+  std::string code =
+    std::string("a = 1\n") 
+    + std::string("{\n")
+    + std::string(" b = 2\n")
+    + std::string(" print(b)\n")
+    + std::string("}\n") 
+    + std::string("print(b)\n");
+  auto tokens = tokenize(code);
+  TokenStream tokenStream(tokens);
+  auto program = parseProgram(tokenStream);
+  std::vector<std::map<std::string, int>> envStack;
+  envStack.push_back({});
+  executeProgram(program, envStack);
+  envStack.pop_back();
+  return ;
+}
+
+void testIfStmt1() {
+  std::string code =
+    std::string("a = 1\n") 
+    + std::string("if(a) print(2 + a)\n");
+  auto tokens = tokenize(code);
+  TokenStream tokenStream(tokens);
+  auto program = parseProgram(tokenStream);
+  std::vector<std::map<std::string, int>> envStack;
+  envStack.push_back({});
+  executeProgram(program, envStack);
+  envStack.pop_back();
+}
+
+void testIfStmt2() {
+  std::string code =
+    std::string("a = 0\n") 
+    + std::string("if(a) print(1)\n")
+    + std::string("print(2)");
+  auto tokens = tokenize(code);
+  TokenStream tokenStream(tokens);
+  auto program = parseProgram(tokenStream);
+  std::vector<std::map<std::string, int>> envStack;
+  envStack.push_back({});
+  executeProgram(program, envStack);
+  envStack.pop_back();
+}
+
+void testIfStmt3() {
+  std::string code =
+    std::string("a = 1\n") 
+    + std::string("if(a) {\n")
+    + std::string(" a = 2")
+    + std::string("}") 
+    + std::string("print(a)");
+  auto tokens = tokenize(code);
+  TokenStream tokenStream(tokens);
+  auto program = parseProgram(tokenStream);
+  std::vector<std::map<std::string, int>> envStack;
+  envStack.push_back({});
+  executeProgram(program, envStack);
+  envStack.pop_back();
+}
+
+void testIfStmt4() {
+  std::string code =
+    std::string("if a) print(1)");
+  auto tokens = tokenize(code);
+  TokenStream tokenStream(tokens);
+  auto program = parseProgram(tokenStream);
+  std::vector<std::map<std::string, int>> envStack;
+  envStack.push_back({});
+  executeProgram(program, envStack);
+  envStack.pop_back();
+}
+
+void testIfStmt5() {
+  std::string code =
+    std::string("if () print(1)");
+  auto tokens = tokenize(code);
+  TokenStream tokenStream(tokens);
+  auto program = parseProgram(tokenStream);
+  std::vector<std::map<std::string, int>> envStack;
+  envStack.push_back({});
+  executeProgram(program, envStack);
+  envStack.pop_back();
+}
  
+void testIfStmt6() {
+  std::string code =
+    "a = 1\n"
+    "if (a) {\n"
+    "  a = 2\n"
+    "  {\n"
+    "    a = 3\n"
+    "    print(a)\n"
+    "  }\n"
+    "  print(a)\n"
+    "}\n"
+    "print(a)\n";
+
+  auto tokens = tokenize(code);
+  TokenStream tokenStream(tokens);
+  auto program = parseProgram(tokenStream);
+  std::vector<std::map<std::string, int>> envStack;
+  envStack.push_back({});
+  executeProgram(program, envStack);
+  envStack.pop_back();
+}
+
+void testWhileStmt1() {
+  std::string code =
+    "a = 3\n"
+    "while (a) {\n"
+    "  print(a)\n"
+    "  a = a - 1\n"
+    "}\n"
+    "print(a)\n";
+
+  auto tokens = tokenize(code);
+  TokenStream tokenStream(tokens);
+  auto program = parseProgram(tokenStream);
+
+  std::vector<std::map<std::string, int>> envStack;
+  envStack.push_back({});
+  executeProgram(program, envStack);
+  envStack.pop_back();
+}
+
+void testWhileStmt2() {
+  std::string code =
+    "a = 0\n"
+    "while (a) {\n"
+    "  print(1)\n"
+    "}\n"
+    "print(2)\n";
+
+  auto tokens = tokenize(code);
+  TokenStream tokenStream(tokens);
+  auto program = parseProgram(tokenStream);
+
+  std::vector<std::map<std::string, int>> envStack;
+  envStack.push_back({});
+  executeProgram(program, envStack);
+  envStack.pop_back();
+}
+
+void testWhileStmt3() {
+  std::string code =
+    "a = 3\n"
+    "while (a) a = a - 1\n"
+    "print(a)\n";
+
+  auto tokens = tokenize(code);
+  TokenStream tokenStream(tokens);
+  auto program = parseProgram(tokenStream);
+
+  std::vector<std::map<std::string, int>> envStack;
+  envStack.push_back({});
+  executeProgram(program, envStack);
+  envStack.pop_back();
+}
+
+void testWhileStmt4() {
+  std::string code =
+    "a = 2\n"
+    "while (a) {\n"
+    "  b = a\n"
+    "  print(b)\n"
+    "  a = a - 1\n"
+    "}\n"
+    "print(a)\n";
+
+  auto tokens = tokenize(code);
+  TokenStream tokenStream(tokens);
+  auto program = parseProgram(tokenStream);
+
+  std::vector<std::map<std::string, int>> envStack;
+  envStack.push_back({});
+  executeProgram(program, envStack);
+  envStack.pop_back();
+}
+
+void testWhileStmt5() {
+  std::string code =
+    "a = 2\n"
+    "while (a) {\n"
+    "  b = 2\n"
+    "  while (b) {\n"
+    "    print(a)\n"
+    "    print(b)\n"
+    "    b = b - 1\n"
+    "  }\n"
+    "  a = a - 1\n"
+    "}\n";
+
+  auto tokens = tokenize(code);
+  TokenStream tokenStream(tokens);
+  auto program = parseProgram(tokenStream);
+
+  std::vector<std::map<std::string, int>> envStack;
+  envStack.push_back({});
+  executeProgram(program, envStack);
+  envStack.pop_back();
+}
+
+void testWhileStmt6() {
+  std::string code =
+    "a = 3\n"
+    "while (a) {\n"
+    "  if (a - 2) print(a)\n"
+    "  a = a - 1\n"
+    "}\n";
+
+  auto tokens = tokenize(code);
+  TokenStream tokenStream(tokens);
+  auto program = parseProgram(tokenStream);
+
+  std::vector<std::map<std::string, int>> envStack;
+  envStack.push_back({});
+  executeProgram(program, envStack);
+  envStack.pop_back();
+}
+
+
 int main() {
   // testTokenizer("a = 3");
   // testTokenizer("b = a * 2 + 1");
@@ -174,6 +396,19 @@ int main() {
   // testExecute2();
   // testExecute3();
   // testProgram();
-  testBlockStmt();
+  // testBlockStmt1();
+  // testBlockStmt2();
+  // testIfStmt1();
+  // testIfStmt2();
+  // testIfStmt3();
+  // testIfStmt4();
+  // testIfStmt5();
+  // testIfStmt6();
+  // testWhileStmt1();
+  // testWhileStmt2();
+  // testWhileStmt3();
+  // testWhileStmt4();
+  // testWhileStmt5();
+  // testWhileStmt6();
   return 0;
 }
