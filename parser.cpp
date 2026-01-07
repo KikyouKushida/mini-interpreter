@@ -8,6 +8,16 @@
 #include "parser.h"
 #include <stdexcept>
 
+std::unique_ptr<Expr> parseComparison(TokenStream& ts) {
+  std::unique_ptr<Expr> left = parseExpression(ts);
+  if (ts.peek().type == TokenType::GREATER || ts.peek().type == TokenType::LESS || ts.peek().type == TokenType::EQUAL || ts.peek().type == TokenType::NOTEQUAL) {
+    TokenType op = ts.consume().type;
+    std::unique_ptr<Expr> right = parseExpression(ts);
+    left = std::make_unique<BinaryExpr>(op, std::move(left), std::move(right));
+  }
+  return left;
+}
+
 std::unique_ptr<Expr> parseExpression(TokenStream& ts) {
   std::unique_ptr<Expr> left = parseTerm(ts);
   while (ts.peek().type == TokenType::PLUS || ts.peek().type == TokenType::MINUS) {
@@ -37,7 +47,7 @@ std::unique_ptr<Expr> parseFactor(TokenStream& ts) {
     return std::make_unique<VarExpr>(t.lexeme);
   } else if (ts.peek().type == TokenType::LPAREN) {
     ts.consume();
-    auto inside = parseExpression(ts);
+    auto inside = parseComparison(ts);
     ts.expect(TokenType::RPAREN);
     return inside;
   } else {
@@ -50,7 +60,7 @@ std::unique_ptr<Expr> parseFactor(TokenStream& ts) {
 }
 
 std::unique_ptr<Expr> parseAllExpression(TokenStream& ts) {
-  auto expr = parseExpression(ts);
+  auto expr = parseComparison(ts);
   ts.expect(TokenType::END);
   return expr;
 }
@@ -70,14 +80,14 @@ std::unique_ptr<Stmt> parseStatement(TokenStream& ts) {
   } else if (ts.peek().type == TokenType::IF) {
     ts.consume();
     ts.expect(TokenType::LPAREN);
-    auto expr = parseExpression(ts);
+    auto expr = parseComparison(ts);
     ts.expect(TokenType::RPAREN);
     auto stmt = parseStatement(ts);
     return std::make_unique<IfStmt>(std::move(expr), std::move(stmt));
   } else if (ts.peek().type == TokenType::WHILE) {
     ts.consume();
     ts.expect(TokenType::LPAREN);
-    auto expr = parseExpression(ts);
+    auto expr = parseComparison(ts);
     ts.expect(TokenType::RPAREN);
     auto stmt = parseStatement(ts);
     return std::make_unique<WhileStmt>(std::move(expr), std::move(stmt));

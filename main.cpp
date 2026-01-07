@@ -381,6 +381,122 @@ void testWhileStmt6() {
   envStack.pop_back();
 }
 
+void testCmp1() {
+  std::string code =
+    "a = 3\n"
+    "if (a > 2) print(1)\n";
+
+  auto tokens = tokenize(code);
+  TokenStream ts(tokens);
+  auto program = parseProgram(ts);
+
+  std::vector<std::map<std::string, int>> envStack;
+  envStack.push_back({});
+  executeProgram(program, envStack);
+  envStack.pop_back();
+}
+
+void testCmp2() {
+  std::string code =
+    "a = 2\n"
+    "if (a > 2) print(1)\n"
+    "print(2)\n";
+
+  auto tokens = tokenize(code);
+  TokenStream ts(tokens);
+  auto program = parseProgram(ts);
+
+  std::vector<std::map<std::string, int>> envStack;
+  envStack.push_back({});
+  executeProgram(program, envStack);
+  envStack.pop_back();
+}
+
+
+void testCmp3() {
+  std::string code =
+    "a = 3\n"
+    "if (a == 3) print(1)\n"
+    "if (a == 4) print(2)\n";
+
+  auto tokens = tokenize(code);
+  TokenStream ts(tokens);
+  auto program = parseProgram(ts);
+
+  std::vector<std::map<std::string, int>> envStack;
+  envStack.push_back({});
+  executeProgram(program, envStack);
+  envStack.pop_back();
+}
+
+void testCmp4() {
+  std::string code =
+    "a = 3\n"
+    "if (a != 2) print(1)\n"
+    "if (a != 3) print(2)\n";
+
+  auto tokens = tokenize(code);
+  TokenStream ts(tokens);
+  auto program = parseProgram(ts);
+
+  std::vector<std::map<std::string, int>> envStack;
+  envStack.push_back({});
+  executeProgram(program, envStack);
+  envStack.pop_back();
+}
+
+void testCmp5() {
+  std::string code =
+    "if (1 + 2 > 3 * 1) print(1)\n"
+    "if (1 + 2 == 3) print(2)\n"
+    "if (2 * 2 < 3) print(3)\n";
+
+  auto tokens = tokenize(code);
+  TokenStream ts(tokens);
+  auto program = parseProgram(ts);
+
+  std::vector<std::map<std::string, int>> envStack;
+  envStack.push_back({});
+  executeProgram(program, envStack);
+  envStack.pop_back();
+}
+
+void testCmp6() {
+  std::string code =
+    "a = 3\n"
+    "while (a > 0) {\n"
+    "  print(a)\n"
+    "  a = a - 1\n"
+    "}\n";
+
+  auto tokens = tokenize(code);
+  TokenStream ts(tokens);
+  auto program = parseProgram(ts);
+
+  std::vector<std::map<std::string, int>> envStack;
+  envStack.push_back({});
+  executeProgram(program, envStack);
+  envStack.pop_back();
+}
+
+
+void testCmp7() {
+  std::string code =
+    "if ((1 + 2) > (3 - 1)) print(1)\n"
+    "if ((1 + 1) == (3 - 1)) print(2)\n";
+
+  auto tokens = tokenize(code);
+  TokenStream ts(tokens);
+  auto program = parseProgram(ts);
+
+  std::vector<std::map<std::string, int>> envStack;
+  envStack.push_back({});
+  executeProgram(program, envStack);
+  envStack.pop_back();
+}
+
+
+
 
 int main() {
   // testTokenizer("a = 3");
@@ -410,5 +526,19 @@ int main() {
   // testWhileStmt4();
   // testWhileStmt5();
   // testWhileStmt6();
+  testCmp1();
+  std::cout << "\n";
+  testCmp2();
+  std::cout << "\n";
+  testCmp3();
+  std::cout << "\n";
+  testCmp4();
+  std::cout << "\n";
+  testCmp5();
+  std::cout << "\n";
+  testCmp6();
+  std::cout << "\n";
+  testCmp7();
+  std::cout << "\n";
   return 0;
 }

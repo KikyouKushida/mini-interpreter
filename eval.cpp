@@ -24,6 +24,14 @@ int eval(const Expr& e, std::vector<std::map<std::string, int>>& envStack) {
         throw std::runtime_error("Division by zero");
       }
       return leval / reval;
+    } else if (p->op == TokenType::GREATER) {
+      return leval > reval ? 1 : 0;
+    } else if (p->op == TokenType::LESS) {
+      return leval < reval ? 1 : 0;
+    } else if (p->op == TokenType::EQUAL) {
+      return leval == reval ? 1 : 0;
+    } else if (p->op == TokenType::NOTEQUAL) {
+      return leval != reval ? 1 : 0;
     } else {
       throw std::runtime_error("Unknown operator type");
     }

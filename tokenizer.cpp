@@ -102,8 +102,14 @@ std::vector<Token> tokenize(const std::string& input) {
       tokens.push_back(Token(TokenType::MINUS, input.substr(pos, 1), 0, pos));
       pos = pos + 1;
     } else if (c == '=') {
-      tokens.push_back(Token(TokenType::ASSIGN, input.substr(pos, 1), 0, pos));
-      pos = pos + 1;
+      if (pos + 1 < input.size() && input[pos + 1] == '=') {
+        tokens.push_back(Token(TokenType::EQUAL, input.substr(pos, 2), 0, pos));
+        pos = pos + 2;
+      }
+      else {
+        tokens.push_back(Token(TokenType::ASSIGN, input.substr(pos, 1), 0, pos));
+        pos = pos + 1;
+      }
     } else if (c == '*') {
       tokens.push_back(Token(TokenType::MUL, input.substr(pos, 1), 0, pos));
       pos = pos + 1;
@@ -116,13 +122,28 @@ std::vector<Token> tokenize(const std::string& input) {
     } else if (c == ')') {
       tokens.push_back(Token(TokenType::RPAREN, input.substr(pos, 1), 0, pos));
       pos = pos + 1;
-    } else {
-      throw std::runtime_error(
+    } else if (c == '>') {
+      tokens.push_back(Token(TokenType::GREATER, input.substr(pos, 1), 0, pos));
+      pos = pos + 1;
+    } else if (c == '<') {
+      tokens.push_back(Token(TokenType::LESS, input.substr(pos, 1), 0, pos));
+      pos = pos + 1;
+    } else if (c == '!') {
+      if (pos + 1 >= input.size() || input[pos + 1] != '=') {
+        throw std::runtime_error(
           "Unexpected character '" + std::string(1, c) +
           "' at position " + std::to_string(pos)
           );
+      }
+      tokens.push_back(Token(TokenType::NOTEQUAL, input.substr(pos, 2), 0, pos));
+      pos = pos + 2;
+    } else {
+      throw std::runtime_error(
+        "Unexpected character '" + std::string(1, c) +
+        "' at position " + std::to_string(pos)
+        );
     }
   }
-  tokens.push_back(Token(TokenType::END, "", 0, pos));
+  tokens.push_back(Token(TokenType::END, std::string(""), 0, pos));
   return tokens;
 }
