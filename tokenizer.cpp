@@ -48,30 +48,29 @@ std::vector<Token> tokenize(const std::string& input) {
   size_t pos = 0;
   while (pos < input.size()) {
     char c = input[pos];
-    // TODO: 空白
-    // TODO: 数字
-    // TODO: 标识符
-    // TODO: 运算符 / 符号
-    // TODO: 错误
     if (isEmpty(c)) {
       pos = pos + 1;
-      continue;
+    } else if (c == '#') {
+      while (true) {
+        pos = pos + 1;
+        if (input[pos] == '\n') {
+          tokens.push_back(Token(TokenType::NEWLINE, input.substr(pos, pos), 0, pos));
+          pos = pos + 1;
+          break;
+        }
+      }
     } else if (c == ';') {
       tokens.push_back(Token(TokenType::SEMICOLON, input.substr(pos, pos), 0, pos));
       pos = pos + 1;
-      continue;
     } else if (c == '\n') {
       tokens.push_back(Token(TokenType::NEWLINE, input.substr(pos, pos), 0, pos));
       pos = pos + 1;
-      continue;
     } else if (c == '{') {
       tokens.push_back(Token(TokenType::LBRACE, input.substr(pos, pos), 0, pos));
       pos = pos + 1;
-      continue;
     } else if (c == '}') {
       tokens.push_back(Token(TokenType::RBRACE, input.substr(pos, pos), 0, pos));
       pos = pos + 1;
-      continue;
     } else if (isdigit(c)) {
       int value = 0;
       size_t startPos = pos;
@@ -125,11 +124,23 @@ std::vector<Token> tokenize(const std::string& input) {
       tokens.push_back(Token(TokenType::RPAREN, input.substr(pos, 1), 0, pos));
       pos = pos + 1;
     } else if (c == '>') {
-      tokens.push_back(Token(TokenType::GREATER, input.substr(pos, 1), 0, pos));
-      pos = pos + 1;
+      if (pos + 1 < input.size() && input[pos + 1] == '=') {
+        tokens.push_back(Token(TokenType::GREATEREQUAL, input.substr(pos, 2), 0, pos));
+        pos = pos + 2;
+      }
+      else {
+        tokens.push_back(Token(TokenType::GREATER, input.substr(pos, 1), 0, pos));
+        pos = pos + 1;
+      }
     } else if (c == '<') {
-      tokens.push_back(Token(TokenType::LESS, input.substr(pos, 1), 0, pos));
-      pos = pos + 1;
+      if (pos + 1 < input.size() && input[pos + 1] == '=') {
+        tokens.push_back(Token(TokenType::LESSEQUAL, input.substr(pos, 2), 0, pos));
+        pos = pos + 2;
+      }
+      else {
+        tokens.push_back(Token(TokenType::LESS, input.substr(pos, 1), 0, pos));
+        pos = pos + 1;
+      }
     } else if (c == '!') {
       if (pos + 1 >= input.size() || input[pos + 1] != '=') {
         throw std::runtime_error(

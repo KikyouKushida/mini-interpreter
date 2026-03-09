@@ -495,6 +495,25 @@ void testCmp7() {
   envStack.pop_back();
 }
 
+void testElse1() {
+  std::string code =
+    "a = 3\n"
+    "if (a == 1 + 2) {\n"
+    "  print(588)\n"
+    "} else {\n"
+    "  printf(885)\n"
+    "}\n";
+
+  auto tokens = tokenize(code);
+  TokenStream ts(tokens);
+  auto program = parseProgram(ts);
+
+  std::vector<std::map<std::string, int>> envStack;
+  envStack.push_back({});
+  executeProgram(program, envStack);
+  envStack.pop_back();
+}
+
 
 
 
@@ -526,19 +545,21 @@ int main() {
   // testWhileStmt4();
   // testWhileStmt5();
   // testWhileStmt6();
-  testCmp1();
-  std::cout << "\n";
-  testCmp2();
-  std::cout << "\n";
-  testCmp3();
-  std::cout << "\n";
-  testCmp4();
-  std::cout << "\n";
-  testCmp5();
-  std::cout << "\n";
-  testCmp6();
-  std::cout << "\n";
-  testCmp7();
+  // testCmp1();
+  // std::cout << "\n";
+  // testCmp2();
+  // std::cout << "\n";
+  // testCmp3();
+  // std::cout << "\n";
+  // testCmp4();
+  // std::cout << "\n";
+  // testCmp5();
+  // std::cout << "\n";
+  // testCmp6();
+  // std::cout << "\n";
+  // testCmp7();
+  // std::cout << "\n";
+  testElse1();
   std::cout << "\n";
   return 0;
 }

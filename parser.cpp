@@ -10,7 +10,7 @@
 
 std::unique_ptr<Expr> parseComparison(TokenStream& ts) {
   std::unique_ptr<Expr> left = parseExpression(ts);
-  if (ts.peek().type == TokenType::GREATER || ts.peek().type == TokenType::LESS || ts.peek().type == TokenType::EQUAL || ts.peek().type == TokenType::NOTEQUAL) {
+  if (ts.peek().type == TokenType::GREATEREQUAL || ts.peek().type == TokenType::LESSEQUAL ||ts.peek().type == TokenType::GREATER || ts.peek().type == TokenType::LESS || ts.peek().type == TokenType::EQUAL || ts.peek().type == TokenType::NOTEQUAL) {
     TokenType op = ts.consume().type;
     std::unique_ptr<Expr> right = parseExpression(ts);
     left = std::make_unique<BinaryExpr>(op, std::move(left), std::move(right));

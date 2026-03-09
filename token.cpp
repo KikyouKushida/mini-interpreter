@@ -30,6 +30,10 @@ std::string tokenTypeName(TokenType type) {
     return std::string("GREATER");
   } else if (type == TokenType::LESS) {
     return std::string("LESS");
+  } else if (type == TokenType::GREATEREQUAL) {
+    return std::string("GREATEREQUAL");
+  } else if (type == TokenType::LESSEQUAL) {
+    return std::string("LESSEQUAL");
   } else if (type == TokenType::EQUAL) {
     return std::string("EQUAL");
   } else if (type == TokenType::NOTEQUAL) {

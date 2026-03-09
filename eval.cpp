@@ -28,7 +28,11 @@ int eval(const Expr& e, std::vector<std::map<std::string, int>>& envStack) {
       return leval > reval ? 1 : 0;
     } else if (p->op == TokenType::LESS) {
       return leval < reval ? 1 : 0;
-    } else if (p->op == TokenType::EQUAL) {
+    } else if (p->op == TokenType::GREATEREQUAL) {
+      return leval >= reval ? 1 : 0;
+    } else if (p->op == TokenType::LESSEQUAL) {
+      return leval <= reval ? 1 : 0;
+    }  else if (p->op == TokenType::EQUAL) {
       return leval == reval ? 1 : 0;
     } else if (p->op == TokenType::NOTEQUAL) {
       return leval != reval ? 1 : 0;

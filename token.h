@@ -16,6 +16,8 @@ enum class TokenType {
   GREATER,
   LESS,
   EQUAL,
+  LESSEQUAL,
+  GREATEREQUAL,
   NOTEQUAL,
   END,
   PRINT,
@@ -67,6 +69,10 @@ struct Token {
       return std::string("LESS(" + lexeme + ")");
     } else if (type == TokenType::EQUAL) {
       return std::string("EQUAL(" + lexeme + ")");
+    } else if (type == TokenType::LESSEQUAL) {
+      return std::string("LESSEQUAL(" + lexeme + ")");
+    } else if (type == TokenType::GREATEREQUAL) {
+      return std::string("GREATEREQUAL(" + lexeme + ")");
     } else if (type == TokenType::NOTEQUAL) {
       return std::string("NOTEQUAL(" + lexeme + ")");
     } else if (type == TokenType::SEMICOLON) {
