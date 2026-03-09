@@ -83,7 +83,13 @@ std::unique_ptr<Stmt> parseStatement(TokenStream& ts) {
     auto expr = parseComparison(ts);
     ts.expect(TokenType::RPAREN);
     auto stmt = parseStatement(ts);
-    return std::make_unique<IfStmt>(std::move(expr), std::move(stmt));
+    if (ts.peek().type == TokenType::ELSE) {
+      ts.consume();
+      auto elsestmt = parseStatement(ts);
+      return std::make_unique<IfStmt>(std::move(expr), std::move(stmt), elsestmt);
+    } else {
+      return std::make_unique<IfStmt>(std::move(expr), std::move(stmt), NULL);
+    }
   } else if (ts.peek().type == TokenType::WHILE) {
     ts.consume();
     ts.expect(TokenType::LPAREN);

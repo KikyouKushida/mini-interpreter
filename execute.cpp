@@ -26,6 +26,10 @@ void execute(const Stmt& stmt, std::vector<std::map<std::string, int>>& envStack
     int exprVal = eval(*(p->expr), envStack);
     if (exprVal != 0) {
       execute(*(p->stmt), envStack);
+    } else {
+      if (p->elsestmt != NULL) {
+        execute(*(p->elsestmt), envStack);
+      }
     }
   } else if (auto p = dynamic_cast<const WhileStmt*>(&stmt)) {
     while (true) {

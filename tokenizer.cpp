@@ -92,6 +92,8 @@ std::vector<Token> tokenize(const std::string& input) {
         tokens.push_back(Token(TokenType::IF, input.substr(startPos, pos - startPos), 0, startPos));
       } else if (input.substr(startPos, pos - startPos) == "while") {
         tokens.push_back(Token(TokenType::WHILE, input.substr(startPos, pos - startPos), 0, startPos));
+      } else if (input.substr(startPos, pos - startPos) == "else") {
+        tokens.push_back(Token(TokenType::ELSE, input.substr(startPos, pos - startPos), 0, startPos));
       } else {
         tokens.push_back(Token(TokenType::IDENT, input.substr(startPos, pos - startPos), 0, startPos));
       }

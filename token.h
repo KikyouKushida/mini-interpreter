@@ -21,6 +21,7 @@ enum class TokenType {
   PRINT,
   SEMICOLON,
   IF,
+  ELSE,
   WHILE,
   NEWLINE,
   INVALID
@@ -48,8 +49,6 @@ struct Token {
       return std::string("IDENT(" + lexeme + ")");
     } else if (type == TokenType::INT) {
       return std::string("INT(" + std::to_string(value) + ")");
-    } else if (type == TokenType::INVALID) {
-      return std::string("INVALID(" + lexeme + ")");
     } else if (type == TokenType::LPAREN) {
       return std::string("LPAREN(" + lexeme + ")");
     } else if (type == TokenType::MINUS) {
@@ -62,8 +61,28 @@ struct Token {
       return std::string("RPAREN(" + lexeme + ")");
     } else if (type == TokenType::PRINT) {
       return std::string("PRINT(" + lexeme + ")");
+    } else if (type == TokenType::GREATER) {
+      return std::string("GREATER(" + lexeme + ")");
+    } else if (type == TokenType::LESS) {
+      return std::string("LESS(" + lexeme + ")");
+    } else if (type == TokenType::EQUAL) {
+      return std::string("EQUAL(" + lexeme + ")");
+    } else if (type == TokenType::NOTEQUAL) {
+      return std::string("NOTEQUAL(" + lexeme + ")");
+    } else if (type == TokenType::SEMICOLON) {
+      return std::string("SEMICOLON(" + lexeme + ")");
+    } else if (type == TokenType::IF) {
+      return std::string("IF(" + lexeme + ")");
+    } else if (type == TokenType::ELSE) {
+      return std::string("ELSE(" + lexeme + ")");
+    } else if (type == TokenType::WHILE) {
+      return std::string("WHILE(" + lexeme + ")");
+    } else if (type == TokenType::NEWLINE) {
+      return std::string("NEWLINE(\n)");
+    } else if (type == TokenType::INVALID) {
+      return std::string("INVALID(" + lexeme + ")");
     } else {
-      return std::string("---");
+      return std::string("?(-?-?-?)");
     }
   }
 };
