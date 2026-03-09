@@ -27,7 +27,7 @@ void execute(const Stmt& stmt, std::vector<std::map<std::string, int>>& envStack
     if (exprVal != 0) {
       execute(*(p->stmt), envStack);
     } else {
-      if (p->elsestmt != NULL) {
+      if (p->elsestmt != nullptr) {
         execute(*(p->elsestmt), envStack);
       }
     }
