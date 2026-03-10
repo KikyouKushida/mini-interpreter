@@ -47,6 +47,7 @@ struct TokenStream {
 std::unique_ptr<Expr> parseComparison(TokenStream& ts);
 std::unique_ptr<Expr> parseExpression(TokenStream& ts);
 std::unique_ptr<Expr> parseTerm(TokenStream& ts);
+std::unique_ptr<Expr> parseUnary(TokenStream& ts);
 std::unique_ptr<Expr> parseFactor(TokenStream& ts);
 std::unique_ptr<Expr> parseAllExpression(TokenStream& ts);
 std::unique_ptr<Stmt> parseStatement(TokenStream& ts);

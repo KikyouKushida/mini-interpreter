@@ -29,13 +29,22 @@ std::unique_ptr<Expr> parseExpression(TokenStream& ts) {
 }
 
 std::unique_ptr<Expr> parseTerm(TokenStream& ts) {
-  std::unique_ptr<Expr> left = parseFactor(ts);
+  std::unique_ptr<Expr> left = parseUnary(ts);
   while (ts.peek().type == TokenType::MUL || ts.peek().type == TokenType::DIV) {
     TokenType op = ts.consume().type;
-    std::unique_ptr<Expr> right = parseFactor(ts);
+    std::unique_ptr<Expr> right = parseUnary(ts);
     left = std::make_unique<BinaryExpr>(op, std::move(left), std::move(right));
   }
   return left;
+}
+
+std::unique_ptr<Expr> parseUnary(TokenStream& ts) {
+  if (ts.peek().type == TokenType::MINUS) {
+    ts.consume();
+    auto expr = parseUnary(ts);
+    return std::make_unique<UnaryExpr>(TokenType::MINUS, std::move(expr));
+  }
+  return parseFactor(ts);
 }
 
 std::unique_ptr<Expr> parseFactor(TokenStream& ts) {
@@ -121,16 +130,14 @@ std::unique_ptr<Stmt> parseStatement(TokenStream& ts) {
 Program parseProgram(TokenStream& ts) {
   Program program;
   while (ts.peek().type != TokenType::END && ts.peek().type != TokenType::RBRACE) {
-    while (ts.peek().type == TokenType::SEMICOLON ||
-           ts.peek().type == TokenType::NEWLINE) {
+    while (ts.peek().type == TokenType::SEMICOLON || ts.peek().type == TokenType::NEWLINE) {
       ts.consume();
     }
     if (ts.peek().type == TokenType::END || ts.peek().type == TokenType::RBRACE) {
       break;
     }
     program.push_back(parseStatement(ts));
-    while (ts.peek().type == TokenType::SEMICOLON ||
-           ts.peek().type == TokenType::NEWLINE) {
+    while (ts.peek().type == TokenType::SEMICOLON || ts.peek().type == TokenType::NEWLINE) {
       ts.consume();
     }
   }

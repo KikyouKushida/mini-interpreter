@@ -497,12 +497,27 @@ void testCmp7() {
 
 void testElse1() {
   std::string code =
-    "a = 3\n"
+    "a = 4\n"
     "if (a == 1 + 2) {\n"
     "  print(588)\n"
     "} else {\n"
-    "  printf(885)\n"
+    "  print(885)\n"
     "}\n";
+
+  auto tokens = tokenize(code);
+  TokenStream ts(tokens);
+  auto program = parseProgram(ts);
+
+  std::vector<std::map<std::string, int>> envStack;
+  envStack.push_back({});
+  executeProgram(program, envStack);
+  envStack.pop_back();
+}
+
+void testUnary1() {
+  std::string code =
+    "a = 3\n"
+    "print(--a + ----a + 5)\n";
 
   auto tokens = tokenize(code);
   TokenStream ts(tokens);
@@ -560,6 +575,8 @@ int main() {
   // testCmp7();
   // std::cout << "\n";
   testElse1();
+  std::cout << "\n";
+  testUnary1();
   std::cout << "\n";
   return 0;
 }

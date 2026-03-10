@@ -39,6 +39,13 @@ int eval(const Expr& e, std::vector<std::map<std::string, int>>& envStack) {
     } else {
       throw std::runtime_error("Unknown operator type");
     }
+  } else if (auto p = dynamic_cast<const UnaryExpr*>(&e)) {
+    int thiseval = eval(*(p->expr), envStack);
+    if (p->op == TokenType::MINUS) {
+      return -thiseval;
+    } else {
+      throw std::runtime_error("Unknown operator type");
+    }
   } else {
     throw std::runtime_error("Unknown expression type");
   }

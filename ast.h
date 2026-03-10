@@ -31,3 +31,12 @@ struct BinaryExpr : Expr {
     right = std::move(right_);
   }
 };
+
+struct UnaryExpr : Expr {
+  TokenType op;
+  std::unique_ptr<Expr> expr;
+  UnaryExpr(TokenType op_, std::unique_ptr<Expr> expr_) {
+    op = op_;
+    expr = std::move(expr_);
+  }
+};
