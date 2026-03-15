@@ -33,12 +33,14 @@ struct Token {
   TokenType type;
   std::string lexeme; // the initial text
   int value; // only valid for TokenType::INT
-  size_t position; // the location in the initial string
-  Token(TokenType type_, std::string lexeme_, int value_, size_t position_) {
+  // size_t position; // the location in the initial string
+  size_t row, column; // the location in the initial program
+  Token(TokenType type_, std::string lexeme_, int value_, size_t row_, size_t column_) {
     type = type_;
     lexeme = lexeme_;
     value = value_;
-    position = position_;
+    row = row_;
+    column = column_;
   }
   std::string toString() const {
     if (type == TokenType::ASSIGN) {
@@ -53,6 +55,8 @@ struct Token {
       return std::string("INT(" + std::to_string(value) + ")");
     } else if (type == TokenType::LPAREN) {
       return std::string("LPAREN(" + lexeme + ")");
+    } else if (type == TokenType::LBRACE) {
+      return std::string("LBRACE(" + lexeme + ")");
     } else if (type == TokenType::MINUS) {
       return std::string("MINUS(" + lexeme + ")");
     } else if (type == TokenType::MUL) {
@@ -61,6 +65,8 @@ struct Token {
       return std::string("PLUS(" + lexeme + ")");
     } else if (type == TokenType::RPAREN) {
       return std::string("RPAREN(" + lexeme + ")");
+    } else if (type == TokenType::RBRACE) {
+      return std::string("RBRACE(" + lexeme + ")");
     } else if (type == TokenType::PRINT) {
       return std::string("PRINT(" + lexeme + ")");
     } else if (type == TokenType::GREATER) {

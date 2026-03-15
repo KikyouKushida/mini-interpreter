@@ -62,8 +62,9 @@ std::unique_ptr<Expr> parseFactor(TokenStream& ts) {
   } else {
     throw std::runtime_error(
       "Unexpected token " + tokenTypeName(ts.peek().type) +
-      " ('" + ts.peek().lexeme + "') at position " +
-      std::to_string(ts.peek().position)
+      " ('" + ts.peek().lexeme + "') at line " +
+      std::to_string(ts.peek().row) + ", column " +
+      std::to_string(ts.peek().column) + "!"
     );
   }
 }
@@ -113,8 +114,10 @@ std::unique_ptr<Stmt> parseStatement(TokenStream& ts) {
     return std::make_unique<BlockStmt>(std::move(stmts));
   } else {
     throw std::runtime_error(
-      "Unexpected token '" + ts.peek().lexeme +
-      "' at position " + std::to_string(ts.peek().position)
+      "Unexpected token " + tokenTypeName(ts.peek().type) +
+      " ('" + ts.peek().lexeme + "') at line " +
+      std::to_string(ts.peek().row) + ", column " +
+      std::to_string(ts.peek().column) + "!"
     );
   }
 }

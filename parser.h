@@ -37,8 +37,9 @@ struct TokenStream {
       throw std::runtime_error(
         "Expected token " + tokenTypeName(type) +
         ", but got " + tokenTypeName(peek().type) +
-        " ('" + peek().lexeme + "') at position " +
-        std::to_string(peek().position)
+        " ('" + peek().lexeme + "') at line " +
+        std::to_string(peek().row) + ", column " +
+        std::to_string(peek().column) + "!"
       );
     }
   }

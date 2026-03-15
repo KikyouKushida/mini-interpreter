@@ -16,6 +16,8 @@ std::string tokenTypeName(TokenType type) {
     return std::string("INVALID");
   } else if (type == TokenType::LPAREN) {
     return std::string("LPAREN");
+  } else if (type == TokenType::LBRACE) {
+    return std::string("LBRACE");
   } else if (type == TokenType::MINUS) {
     return std::string("MINUS");
   } else if (type == TokenType::MUL) {
@@ -24,6 +26,8 @@ std::string tokenTypeName(TokenType type) {
     return std::string("PLUS");
   } else if (type == TokenType::RPAREN) {
     return std::string("RPAREN");
+  } else if (type == TokenType::RBRACE) {
+    return std::string("RBRACE");
   } else if (type == TokenType::PRINT) {
     return std::string("PRINT");
   } else if (type == TokenType::GREATER) {

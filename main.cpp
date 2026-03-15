@@ -529,6 +529,32 @@ void testUnary1() {
   envStack.pop_back();
 }
 
+void testAny(std::string fileName) {
+  freopen(fileName.c_str(), "r", stdin);
+  std::string code(
+    (std::istreambuf_iterator<char>(std::cin)),
+    std::istreambuf_iterator<char>()
+  );
+  auto tokens = tokenize(code);
+  TokenStream ts(tokens);
+  auto program = parseProgram(ts);
+  if (ts.peek().type != TokenType::END) {
+    throw std::runtime_error(
+      "Unexpected token " + tokenTypeName(ts.peek().type) +
+      " ('" + ts.peek().lexeme + "') at line " +
+      std::to_string(ts.peek().row) + ", column " +
+      std::to_string(ts.peek().column) + "!"
+    );
+  }
+  std::vector<std::map<std::string, int>> envStack;
+  envStack.push_back({});
+  executeProgram(program, envStack);
+  envStack.pop_back();
+  std::cout << "Program is over.\n";
+  fclose(stdin);
+  return;
+}
+
 
 
 
@@ -574,9 +600,10 @@ int main() {
   // std::cout << "\n";
   // testCmp7();
   // std::cout << "\n";
-  testElse1();
-  std::cout << "\n";
-  testUnary1();
-  std::cout << "\n";
+  // testElse1();
+  // std::cout << "\n";
+  // testUnary1();
+  // std::cout << "\n";
+  testAny("in.txt");
   return 0;
 }
